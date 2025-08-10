@@ -9,6 +9,10 @@ node_modules/
 
 # Lock files (keep only one)
 pnpm-lock.yaml
+package-lock.json
+
+# NPM configuration
+.npmrc
 
 # CodeSandbox config
 .codesandbox/
