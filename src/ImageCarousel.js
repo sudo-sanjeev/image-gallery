@@ -1,52 +1,33 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
+import { useAutoPlay } from "./hooks/useAutoPlay";
+import { useImagePreloader } from "./hooks/useImagePreloader";
+import { useCarouselNavigation } from "./hooks/useCarouselNavigation";
 
 export const ImageCarousel = ({ imageUrls = [] }) => {
-  const [currentImageIndex, setImageIndex] = useState(0);
-  const intervalRef = useRef(null);
   const carouselLength = imageUrls.length;
-
-  const resetInterval = () => {
-    clearInterval(intervalRef.current);
-    intervalRef.current = setInterval(() => {
-      setImageIndex((prev) => (prev + 1) % carouselLength);
-    }, 3000);
-  };
-
-  const preloadImages = () => {
-    if (carouselLength <= 1) return;
-
-    const next1 = imageUrls[(currentImageIndex + 1) % carouselLength];
-    const next2 = imageUrls[(currentImageIndex + 2) % carouselLength];
-
-    [next1, next2].forEach((url) => {
-      const img = new Image();
-      img.src = url;
-    });
-  };
+  const { currentIndex, goToPrev, goToNext } = useCarouselNavigation(carouselLength);
+  const { restart, stop } = useAutoPlay(() => goToNext(), 3000);
+  const currentImage = imageUrls[currentIndex] || null;
 
   useEffect(() => {
-    preloadImages();
-  }, [currentImageIndex]);
-
-  useEffect(() => {
-    if (carouselLength > 0) {
-      resetInterval();
+    if (carouselLength > 1) {
+      restart();
     }
+    return () => stop();
+  }, []);
 
-    return () => clearInterval(intervalRef.current);
-  }, [carouselLength]);
 
   const handlePrev = () => {
-    setImageIndex(
-      (prevIndex) => (prevIndex + carouselLength - 1) % carouselLength
-    );
-    resetInterval();
+    goToPrev();
+    restart();
   };
 
   const handleNext = () => {
-    setImageIndex((prevIndex) => (prevIndex + 1) % carouselLength);
-    resetInterval();
+    goToNext();
+    restart();
   };
+
+  useImagePreloader(imageUrls, currentIndex);
 
   if (carouselLength === 0) {
     return <p>No images available</p>;
@@ -55,8 +36,8 @@ export const ImageCarousel = ({ imageUrls = [] }) => {
   return (
     <div style={{ textAlign: "center", maxWidth: "500px", margin: "auto" }}>
       <img
-        src={imageUrls[currentImageIndex]}
-        alt={`carousel-img-${currentImageIndex}`}
+        src={currentImage}
+        alt={`carousel-img-${currentIndex}`}
         style={{
           width: "100%",
           height: "300px",
@@ -71,7 +52,7 @@ export const ImageCarousel = ({ imageUrls = [] }) => {
         <button onClick={handleNext}>Next ➡️</button>
       </div>
       <div style={{ marginTop: "5px", fontSize: "14px", color: "#555" }}>
-        {currentImageIndex + 1} / {carouselLength}
+        {currentIndex + 1} / {carouselLength}
       </div>
     </div>
   );
