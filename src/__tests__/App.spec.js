@@ -11,7 +11,9 @@ import { ImageCarousel } from "../components/ImageCarousel";
 
 const loadImageMock = jest.fn();
 
-beforeAll(() => {
+beforeEach(() => {
+  loadImageMock.mockClear();
+  // Re-apply Image mock implementation each test to avoid losing it if resetMocks is enabled
   globalThis.Image = jest.fn(() => ({
     _src: "",
     _isInit: false,
@@ -37,9 +39,6 @@ const mockUrls = [
 ];
 
 describe("ImageCarousel", () => {
-  beforeEach(() => {
-    loadImageMock.mockClear();
-  });
 
   it("renders without crashing with empty list and renders first image by default", () => {
     const { getByText } = render(<ImageCarousel imageUrls={[]} />);
