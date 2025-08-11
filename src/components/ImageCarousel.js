@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
-import { useAutoPlay } from "./hooks/useAutoPlay";
-import { useImagePreloader } from "./hooks/useImagePreloader";
-import { useCarouselNavigation } from "./hooks/useCarouselNavigation";
+import { useAutoPlay } from "../hooks/useAutoPlay";
+import { useImagePreloader } from "../hooks/useImagePreloader";
+import { useCarouselNavigation } from "../hooks/useCarouselNavigation";
 
-export const ImageCarousel = ({ imageUrls = [] }) => {
+const DEFAULT_AUTOPLAY_INTERVAL = 3000;
+
+export const ImageCarousel = ({ imageUrls = [], autoPlayInterval = DEFAULT_AUTOPLAY_INTERVAL }) => {
   const carouselLength = imageUrls.length;
   const { currentIndex, goToPrev, goToNext } = useCarouselNavigation(carouselLength);
-  const { restart, stop } = useAutoPlay(() => goToNext(), 3000);
+  const { start, stop } = useAutoPlay(() => goToNext(), autoPlayInterval);
   const currentImage = imageUrls[currentIndex] || null;
 
   useEffect(() => {
     if (carouselLength > 1) {
-      restart();
+      start();
     }
     return () => stop();
   }, []);
@@ -19,12 +21,12 @@ export const ImageCarousel = ({ imageUrls = [] }) => {
 
   const handlePrev = () => {
     goToPrev();
-    restart();
+    start();
   };
 
   const handleNext = () => {
     goToNext();
-    restart();
+    start();
   };
 
   useImagePreloader(imageUrls, currentIndex);

@@ -11,16 +11,9 @@ export const useCarouselNavigation = (totalItems) => {
     setCurrentIndex((prev) => (prev + 1) % totalItems);
   };
 
-  const goToIndex = (index) => {
-    if (index >= 0 && index < totalItems) {
-      setCurrentIndex(index);
-    }
-  };
-
   return {
     currentIndex,
     goToPrev,
     goToNext,
-    goToIndex,
   };
 };

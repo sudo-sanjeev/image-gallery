@@ -7,7 +7,7 @@ import {
   act,
   waitFor,
 } from "@testing-library/react";
-import { ImageCarousel } from "../ImageCarousel";
+import { ImageCarousel } from "../components/ImageCarousel";
 
 const loadImageMock = jest.fn();
 

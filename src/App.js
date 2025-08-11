@@ -1,5 +1,5 @@
 import React from "react";
-import { ImageCarousel } from "./ImageCarousel";
+import { ImageCarousel } from "./components/ImageCarousel";
 import "./styles.css";
 
 const imageUrls = [
@@ -18,7 +18,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>Image Carousel</h1>
-      <ImageCarousel imageUrls={imageUrls} />
+      <ImageCarousel imageUrls={imageUrls} autoPlayInterval={3000} />
     </div>
   );
 }

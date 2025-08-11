@@ -9,7 +9,7 @@ export const useImagePreloader = (imageUrls, currentIndex) => {
 
     const imagesToPreload = [
       imageUrls[(currentIndex + 1) % carouselLength],
-      imageUrls[(currentIndex + 2) % carouselLength],
+      imageUrls[(currentIndex + carouselLength - 1) % carouselLength],
     ];
 
     imagesToPreload.forEach((url) => {
@@ -19,5 +19,5 @@ export const useImagePreloader = (imageUrls, currentIndex) => {
         img.src = url;
       }
     });
-  }, [imageUrls, currentIndex, carouselLength]);
+  }, [imageUrls, currentIndex]);
 };

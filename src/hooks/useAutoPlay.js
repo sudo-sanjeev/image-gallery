@@ -3,8 +3,8 @@ import { useEffect, useRef } from "react";
 export const useAutoPlay = (callback, interval = 3000) => {
   const intervalRef = useRef(null);
 
-  const restart = () => {
-    clearInterval(intervalRef.current);
+  const start = () => {
+    stop();
     intervalRef.current = setInterval(callback, interval);
   };
 
@@ -13,5 +13,5 @@ export const useAutoPlay = (callback, interval = 3000) => {
     intervalRef.current = null;
   };
 
-  return { restart, stop };
+  return { start, stop };
 };
