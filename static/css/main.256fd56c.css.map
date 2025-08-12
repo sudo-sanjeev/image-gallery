@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.256fd56c.css","mappings":"AAAA,KAKE,kBAAmB,CAFnB,YAAa,CACb,qBAAsB,CAHtB,sBAAuB,CAKvB,YAAa,CAJb,iBAKF","sources":["styles.css"],"sourcesContent":[".App {\n  font-family: sans-serif;\n  text-align: center;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  padding: 20px;\n}\n"],"names":[],"sourceRoot":""}
