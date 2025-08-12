@@ -19,5 +19,5 @@ A reusable React component that displays a list of images in a carousel, with Pr
 
 **GIF Demo:**
 
-![](https://qa6-public-assets.sprinklr.com/DAM/66000000/44c7bb9c-4df6-4126-97bc-0c94ad6e0434-2097650924/image-carousel-demo.gif)
+![React Image Carousel Demo](./assets/image-carousel-demo.gif)
 
