@@ -29,6 +29,16 @@ export const ImageCarousel = ({ imageUrls = [], autoPlayInterval = DEFAULT_AUTOP
     start();
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      handlePrev();
+    } else if (event.key === "ArrowRight") {
+      event.preventDefault();
+      handleNext();
+    }
+  };
+
   useImagePreloader(imageUrls, currentIndex);
 
   if (carouselLength === 0) {
@@ -36,10 +46,17 @@ export const ImageCarousel = ({ imageUrls = [], autoPlayInterval = DEFAULT_AUTOP
   }
 
   return (
-    <div style={{ textAlign: "center", maxWidth: "500px", margin: "auto" }}>
+    <div
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="Image carousel"
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
+      style={{ textAlign: "center", maxWidth: "500px", margin: "auto" }}
+    >
       <img
         src={currentImage}
-        alt={`carousel-img-${currentIndex}`}
+        alt={`Slide ${currentIndex + 1} of ${carouselLength}`}
         style={{
           width: "100%",
           height: "300px",
@@ -48,12 +65,12 @@ export const ImageCarousel = ({ imageUrls = [], autoPlayInterval = DEFAULT_AUTOP
         }}
       />
       <div style={{ marginTop: "10px" }}>
-        <button onClick={handlePrev} style={{ marginRight: "10px" }}>
+        <button onClick={handlePrev} aria-label="Previous slide" style={{ marginRight: "10px" }}>
           ⬅️ Previous
         </button>
-        <button onClick={handleNext}>Next ➡️</button>
+        <button onClick={handleNext} aria-label="Next slide">Next ➡️</button>
       </div>
-      <div style={{ marginTop: "5px", fontSize: "14px", color: "#555" }}>
+      <div style={{ marginTop: "5px", fontSize: "14px", color: "#555" }} aria-live="polite" aria-atomic="true">
         {currentIndex + 1} / {carouselLength}
       </div>
     </div>
